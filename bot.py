@@ -15,8 +15,12 @@ class MyClient(discord.Client):
 		
 		words = message.content.split()
 		# only respond if the first word of the message was `!doit`
-		if words[0] == '!doit':		
-			await message.channel.send("ditto")
+		if words[0] == '!scrape':
+			scrapeOutput = ""
+			async for msg in message.channel.history(limit = 10000):
+				scrapeOutput = msg.author.name + ": " + msg.content + "\n" + scrapeOutput
+			open("scrape.txt","w+", encoding="utf-8").write(scrapeOutput)
+			print("done!")
 
 # Run the bot
 client = MyClient()
