@@ -1,4 +1,5 @@
 import discord
+import string
 
 # Everything that the bot does is inside this class:
 class MyClient(discord.Client):
@@ -13,12 +14,27 @@ class MyClient(discord.Client):
 		if message.author.bot:
 			return
 		
+		# split the message into it's words
 		words = message.content.split()
-		# only respond if the first word of the message was `!doit`
+		if len(words) < 1:
+			return
+		
+		# if you need to scrape the channel:
 		if words[0] == '!scrape':
+			# select the channel that you want to scrape
+			channel = message.channel
+			if len(words) > 1:
+				channel = channel.guild.get_channel(int(words[1][2: len(words[1])-1]))
+			includeMessage = True
 			scrapeOutput = ""
-			async for msg in message.channel.history(limit = 10000):
-				scrapeOutput = msg.author.name + ": " + msg.content + "\n" + scrapeOutput
+			async for msg in channel.history(limit = 10000):
+				includeMessage = True
+				if msg.content[:1] in string.punctuation:
+					includeMessage = False
+				if msg.content.strip() == '':
+					includeMessage = False
+				if includeMessage:
+					scrapeOutput = msg.author.name + ": " + msg.content + "\n" + scrapeOutput
 			open("scrape.txt","w+", encoding="utf-8").write(scrapeOutput)
 			print("done!")
 
