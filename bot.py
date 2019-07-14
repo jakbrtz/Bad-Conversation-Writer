@@ -57,9 +57,9 @@ class MyClient(discord.Client):
 			await client.change_presence(activity=discord.Game("with a neural net"))
 			
 			gpt2.finetune(sess,
-              'scrape.txt', 
-              model_name=model_name,
-              steps=steps)
+				'scrape.txt', 
+				model_name=model_name,
+				steps=steps)
 			
 			await client.change_presence(activity=None)
 			await message.channel.send("Done! Type `!generate` to get some text")
