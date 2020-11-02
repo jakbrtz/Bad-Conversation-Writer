@@ -8,7 +8,7 @@ You will need these libraries:
 
 `pip install gpt-2-simple`
 
-`pip install tensorflow`
+`pip install tensorflow==1.15`
 
 ## Commands
  `!scrape #channel` This copies all the text from a channel. Specify the channel you want to scrape by using a # so it becomes a hyperlink.
